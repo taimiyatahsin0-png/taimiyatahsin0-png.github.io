@@ -23,6 +23,7 @@ body {
     background: var(--bg);
     color: var(--white);
     line-height: 1.7;
+    overflow-x: hidden;
 }
 
 a {
@@ -30,17 +31,64 @@ a {
     text-decoration: none;
 }
 
+
+/* =========================
+   BACKGROUND EFFECT
+========================= */
+
+.background-glow {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: var(--pink);
+    filter: blur(150px);
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.glow-one {
+    top: 10%;
+    left: -150px;
+    animation: floatGlow 8s ease-in-out infinite;
+}
+
+.glow-two {
+    bottom: 5%;
+    right: -150px;
+    animation: floatGlow 10s ease-in-out infinite reverse;
+}
+
+@keyframes floatGlow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(40px);
+    }
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
     width: 100%;
     padding: 22px 7%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     position: sticky;
     top: 0;
     z-index: 100;
+
     background: rgba(9, 7, 11, 0.88);
     backdrop-filter: blur(15px);
+
     border-bottom: 1px solid rgba(255, 79, 163, 0.08);
 }
 
@@ -62,6 +110,18 @@ a {
 .navbar nav a {
     color: var(--text);
     font-size: 14px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.navbar nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background: var(--pink);
+    left: 0;
+    bottom: -6px;
     transition: 0.3s;
 }
 
@@ -69,16 +129,40 @@ a {
     color: var(--pink);
 }
 
+.navbar nav a:hover::after {
+    width: 100%;
+}
 
-/* HERO */
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
     min-height: 90vh;
     padding: 100px 7%;
+
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
+
     align-items: center;
     gap: 60px;
+}
+
+.hero-content {
+    animation: heroAppear 1s ease forwards;
+}
+
+@keyframes heroAppear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .eyebrow,
@@ -108,12 +192,21 @@ a {
     font-weight: 500;
 }
 
+#typing-text {
+    color: var(--pink);
+}
+
 .hero-text {
     max-width: 600px;
     margin-top: 20px;
     color: var(--text);
     font-size: 16px;
 }
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 .hero-buttons {
     display: flex;
@@ -135,7 +228,8 @@ a {
 }
 
 .btn.primary:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(255, 79, 163, 0.25);
 }
 
 .btn.secondary {
@@ -146,13 +240,29 @@ a {
 .btn.secondary:hover {
     border-color: var(--pink);
     color: var(--pink);
+    transform: translateY(-4px);
 }
 
 
-/* CODE CARD */
+/* =========================
+   CODE CARD
+========================= */
 
 .hero-card {
     position: relative;
+    animation: cardAppear 1s ease 0.2s both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .glow {
@@ -162,18 +272,31 @@ a {
     background: var(--pink);
     filter: blur(130px);
     opacity: 0.15;
+
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
 }
 
 .code-window {
     position: relative;
+
     background: #0e0b10;
     border: 1px solid var(--border);
     border-radius: 15px;
+
     overflow: hidden;
+
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+
+    transition: 0.4s;
+}
+
+.code-window:hover {
+    transform: translateY(-8px) rotateX(2deg);
+    border-color: rgba(255, 79, 163, 0.35);
+    box-shadow: 0 35px 90px rgba(255, 79, 163, 0.08);
 }
 
 .window-top {
@@ -207,7 +330,9 @@ pre {
 }
 
 
-/* SECTIONS */
+/* =========================
+   SECTIONS
+========================= */
 
 .section {
     padding: 110px 7%;
@@ -220,6 +345,11 @@ pre {
     font-size: clamp(35px, 5vw, 58px);
     letter-spacing: -2px;
 }
+
+
+/* =========================
+   ABOUT
+========================= */
 
 .about-grid {
     display: grid;
@@ -244,6 +374,13 @@ pre {
     border: 1px solid var(--border);
     border-radius: 10px;
     background: var(--card);
+
+    transition: 0.3s;
+}
+
+.about-box div:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 79, 163, 0.5);
 }
 
 .about-box strong,
@@ -263,7 +400,9 @@ pre {
 }
 
 
-/* SKILLS */
+/* =========================
+   SKILLS
+========================= */
 
 .skills-grid {
     display: grid;
@@ -273,16 +412,18 @@ pre {
 
 .skill-card {
     padding: 30px;
+
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    transition: 0.3s;
+
+    transition: 0.35s;
 }
 
-.skill-card:hover,
-.project-card:hover {
-    transform: translateY(-6px);
+.skill-card:hover {
+    transform: translateY(-8px);
     border-color: rgba(255, 79, 163, 0.5);
+    box-shadow: 0 15px 40px rgba(255, 79, 163, 0.06);
 }
 
 .skill-number {
@@ -302,63 +443,9 @@ pre {
 }
 
 
-/* PROJECTS */
-
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.project-card {
-    padding: 30px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    transition: 0.3s;
-}
-
-.project-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.project-icon {
-    color: var(--pink);
-    font-weight: 700;
-}
-
-.project-type {
-    color: #7e747f;
-    font-size: 10px;
-    letter-spacing: 1px;
-}
-
-.project-card h3 {
-    margin-top: 30px;
-    font-size: 21px;
-}
-
-.project-card p {
-    color: var(--text);
-    font-size: 14px;
-    margin: 15px 0 25px;
-}
-
-.project-card a {
-    color: var(--pink);
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.coming-text {
-    color: #766c78;
-    font-size: 13px;
-}
-
-
-/* RESEARCH */
+/* =========================
+   INTERESTS
+========================= */
 
 .research-section {
     background: var(--bg-soft);
@@ -369,23 +456,65 @@ pre {
     color: var(--text);
 }
 
-.research-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 30px;
+.interest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 35px;
 }
 
-.research-tags span {
-    padding: 10px 16px;
+.interest-card {
+    padding: 30px;
+
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 100px;
-    color: #d7ced8;
-    font-size: 13px;
+    border-radius: 12px;
+
+    transition: 0.35s;
+}
+
+.interest-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 79, 163, 0.5);
+    box-shadow: 0 15px 40px rgba(255, 79, 163, 0.06);
+}
+
+.interest-card span {
+    color: var(--pink);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.interest-card h3 {
+    margin: 18px 0 10px;
+    font-size: 20px;
+}
+
+.interest-card p {
+    color: var(--text);
+    font-size: 14px;
 }
 
 
-/* CONTACT */
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================
+   CONTACT
+========================= */
 
 .contact-section > p:not(.section-label) {
     max-width: 650px;
@@ -400,28 +529,39 @@ pre {
 
 .contact-links a {
     padding: 12px 20px;
+
     border: 1px solid var(--border);
     border-radius: 8px;
+
     font-size: 13px;
+
+    transition: 0.3s;
 }
 
 .contact-links a:hover {
     border-color: var(--pink);
     color: var(--pink);
+    transform: translateY(-4px);
 }
 
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer {
     padding: 35px 7%;
+
     border-top: 1px solid var(--border);
+
     color: #766d78;
     font-size: 12px;
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 900px) {
 
@@ -438,13 +578,14 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .interest-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .about-grid {
         grid-template-columns: 1fr;
     }
+
 }
 
 
@@ -467,6 +608,10 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .interest-grid {
+        grid-template-columns: 1fr;
+    }
+
     .about-box {
         grid-template-columns: 1fr;
     }
@@ -478,4 +623,5 @@ footer {
     .contact-links {
         flex-direction: column;
     }
+
 }
